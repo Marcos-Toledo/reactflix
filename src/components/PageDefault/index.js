@@ -4,8 +4,6 @@ import Menu from '../Menu';
 import Footer from '../Footer';
 
 const Main = styled.main `
-  background-color: var(--black);
-  color: var(--white);
   flex: 1;
   min-height: calc(100vh - 254px);
 `;

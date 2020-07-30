@@ -25,5 +25,7 @@ a {
 }
 
 #root {
+  background-color: var(--black);
+  color: var(--white);
   min-height: calc(100vh - var(--bodyPaddingTop));
 }
