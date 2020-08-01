@@ -38,7 +38,9 @@ const CadastroCategoria = () => {
   };
 
   useEffect(() => {
-    const URL = 'http://localhost:3004/categorias';
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:3004/categorias'
+      : 'https://toledoflix.herokuapp.com/categorias';
     
     fetch(URL).then(async res => {
       const data = await res.json();
