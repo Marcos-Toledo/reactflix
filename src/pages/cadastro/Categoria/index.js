@@ -1,4 +1,6 @@
 import React , { useState, useEffect } from 'react';
+import useForm from '../../../hooks/useForm';
+
 import PageDefault from '../../../components/PageDefault';
 import { Link } from 'react-router-dom';
 import FormField from '../../../components/FormField';
@@ -6,35 +8,23 @@ import Button from '../../../components/Button';
 
 const CadastroCategoria = () => {
   const objetoCategoria = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: ''
   }; 
+
+  const { value, handlerChange, clearForm } = useForm(objetoCategoria);
+
   const [ categorias, setCategorias ] = useState([]);
-  const [ categoria, setStateCategoria ] = useState(objetoCategoria);
-
-  const handlerInput = (chave, valor) => {
-    setStateCategoria({
-      ...categoria,
-      [chave]: valor
-    });
-  };
-
-  const handlerChange = (input) => {
-    handlerInput(
-      input.target.getAttribute('name'),
-      input.target.value
-    );
-  }
 
   const handlerSubmit = (e) => {
     e.preventDefault();
 
     setCategorias([
-      ...categorias, categoria
+      ...categorias, value
     ]);
 
-    setStateCategoria(objetoCategoria);
+    clearForm();
   };
 
   useEffect(() => {
@@ -52,58 +42,59 @@ const CadastroCategoria = () => {
 
   return (
     <PageDefault>
-      <h1>cadastro de categoria: { categoria.nome }</h1>
+      <div className="container">
 
-      <form onSubmit={ handlerSubmit }>
+        <h1>cadastro de categoria: { value.titulo }</h1>
 
-        <FormField
-          label="Nome:"
-          type="text"
-          name="nome"
-          value={ categoria.nome }
-          onChange={ handlerChange }
-        />
+        <form onSubmit={ handlerSubmit }>
 
-        <FormField
-          label="Descrição:"
-          type="textarea"
-          name="descricao"
-          value={ categoria.descricao }
-          onChange={ handlerChange }
-        />
+          <FormField
+            label="Nome:"
+            type="text"
+            name="nome"
+            value={ value.nome }
+            onChange={ handlerChange }
+          />
 
-        <FormField
-          label="Cor:"
-          type="color"
-          name="cor"
-          value={ categoria.cor }
-          onChange={ handlerChange }
-        />
+          <FormField
+            label="Descrição:"
+            type="textarea"
+            name="descricao"
+            value={ value.descricao }
+            onChange={ handlerChange }
+          />
 
-        <Button>
-          Cadastrar
-        </Button>
-      </form>
+          <FormField
+            label="Cor:"
+            type="color"
+            name="cor"
+            value={ value.cor }
+            onChange={ handlerChange }
+          />
 
-      {categorias.length === 0 && (
-        <p>Loading...</p>
-      )}
+          <Button>
+            Cadastrar
+          </Button>
+        </form>
 
-      <ul>
-        {categorias.map((categoria, index) => {
-          return (
-            <li key={ `${categoria.nome}-${index}` }>
-              <p>{ categoria.nome }</p>
-              <p>{ categoria.descricao }</p>
-              <p>{ categoria.cor }</p>
-            </li>
-          )
-        })}
-      </ul>
+        {categorias.length === 0 && (
+          <p>Loading...</p>
+        )}
 
-      <Link to="/">
-        Ir para home
-      </Link>
+        <ul>
+          {categorias.map((categoria, index) => {
+            return (
+              <li key={ `${categoria.titulo}-${index}` }>
+                <p>{ categoria.titulo }</p>
+              </li>
+            )
+          })}
+        </ul>
+
+        <Link to="/">
+          Ir para home
+        </Link>
+      </div>
     </PageDefault>
   );
 }
